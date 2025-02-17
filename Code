@@ -1,0 +1,67 @@
+// Include the required libraries
+#include <Arduino.h>
+
+// Define pin numbers
+const int flameSensorPin = 2;  // Flame sensor connected to GPIO 2
+const int motorAPin1 = 4;      // Motor A control pin 1
+const int motorAPin2 = 5;      // Motor A control pin 2
+const int motorBPin1 = 12;     // Motor B control pin 1
+const int motorBPin2 = 13;     // Motor B control pin 2
+const int pumpPin = 14;        // Water pump control pin
+
+// Define variables
+bool fireDetected = false;
+
+void setup() {
+  // Initialize serial communication
+  Serial.begin(9600);
+  
+  // Set motor control pins as outputs
+  pinMode(motorAPin1, OUTPUT);
+  pinMode(motorAPin2, OUTPUT);
+  pinMode(motorBPin1, OUTPUT);
+  pinMode(motorBPin2, OUTPUT);
+  
+  // Set pump control pin as output
+  pinMode(pumpPin, OUTPUT);
+  
+  // Set flame sensor pin as input
+  pinMode(flameSensorPin, INPUT);
+}
+
+void loop() {
+  // Read the flame sensor
+  int flameValue = digitalRead(flameSensorPin);
+  
+  // Check if flame is detected
+  if (flameValue == HIGH) {
+    fireDetected = true;
+    Serial.println("Fire detected!");
+    // Move towards the fire
+    moveForward();
+    // Activate water pump
+    digitalWrite(pumpPin, HIGH);
+    delay(5000);  // Run pump for 5 seconds
+    digitalWrite(pumpPin, LOW);  // Turn off pump
+  } else {
+    fireDetected = false;
+    Serial.println("No fire detected");
+    stopMoving();
+  }
+}
+
+// Function to move the robot forward
+void moveForward() {
+  digitalWrite(motorAPin1, HIGH);
+  digitalWrite(motorAPin2, LOW);
+  digitalWrite(motorBPin1, HIGH);
+  digitalWrite(motorBPin2, LOW);
+}
+
+// Function to stop the robot's movement
+void stopMoving() {
+  digitalWrite(motorAPin1, LOW);
+  digitalWrite(motorAPin2, LOW);
+  digitalWrite(motorBPin1, LOW);
+  digitalWrite(motorBPin2, LOW);
+}
