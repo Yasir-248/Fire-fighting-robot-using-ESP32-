@@ -1,1 +1,2 @@
 # Fire-fighting-robot-using-ESP32-
+This project focuses on Designing and developing an autonomous fire-fighting robot using ESP32, integrating flame sensors for fire detection, motor drivers for movement, and a water pump for extinguishing flames. Implemented real-time sensor data processing and motor control logic to navigate towards fire sources and activate the extinguishing mechanism. Programmed the system using Arduino IDE, optimizing response time and ensuring efficient fire suppression.
